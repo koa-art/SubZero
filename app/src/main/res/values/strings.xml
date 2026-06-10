@@ -85,4 +85,5 @@
     <string name="error_password_required">请输入密码</string>
     <string name="error_password_short">密码至少需要3位</string>
     <string name="error_password_mismatch">两次输入的密码不一致</string>
+    <string name="error_username_taken">该用户名已被注册</string>
 </resources>

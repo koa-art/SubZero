@@ -52,7 +52,15 @@ public class RegisterActivity extends BaseActivity {
             tilConfirmPassword.setError(null);
             if (nickname.isEmpty()) nickname = username;
 
+            // Check username uniqueness
             SharedPreferences prefs = getSharedPreferences("subzero_login", MODE_PRIVATE);
+            String existingUser = prefs.getString("account_username", "");
+
+            if (username.equals(existingUser)) {
+                tilUsername.setError(getString(R.string.error_username_taken));
+                return;
+            }
+
             prefs.edit()
                     .putString("account_username", username)
                     .putString("account_password", password)

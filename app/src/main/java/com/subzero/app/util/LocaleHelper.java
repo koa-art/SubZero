@@ -22,8 +22,9 @@ public class LocaleHelper {
     }
 
     public static void setLanguage(Context context, String lang) {
+        // MUST use commit() not apply() — recreate() follows immediately, needs sync write
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-                .edit().putString(KEY_LANG, lang).apply();
+                .edit().putString(KEY_LANG, lang).commit();
     }
 
     /** Called from BaseActivity.attachBaseContext — applies locale at context level for immediate effect */
