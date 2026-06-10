@@ -60,4 +60,29 @@
     <string name="currency_jpy">¥ JPY（日元）</string>
 
     <string name="about_content">SubZero v1.0\n\n开源 · 隐私优先的订阅管理工具\n\n🔒 所有数据仅存储在你自己的设备上\n📊 可视化仪表盘追踪支出\n🔔 续费提醒，不再意外扣费\n📤 JSON/CSV 数据导出\n\nGitHub: github.com/koa-art/SubZero\n\nMIT License</string>
+
+    <!-- Login / Register -->
+    <string name="login_subtitle">登录以管理你的订阅</string>
+    <string name="login_success">登录成功！</string>
+    <string name="login_failed">用户名或密码错误</string>
+    <string name="register_success">注册成功，请登录</string>
+    <string name="username_hint">请输入用户名</string>
+    <string name="password_hint">请输入密码</string>
+    <string name="nickname_hint">给自己取个好听的名字吧</string>
+    <string name="confirm_password_hint">请再次输入密码</string>
+    <string name="btn_login">登 录</string>
+    <string name="btn_register">注 册</string>
+    <string name="no_account">还没有账号？点击注册</string>
+    <string name="has_account">已有账号？返回登录</string>
+    <string name="register_title">创建账号</string>
+    <string name="remember_me">记住密码</string>
+    <string name="reg_username_hint">用户名（至少3个字符）</string>
+    <string name="reg_password_hint">密码（至少3位）</string>
+
+    <!-- Errors -->
+    <string name="error_username_required">请输入用户名</string>
+    <string name="error_username_short">用户名至少需要3个字符</string>
+    <string name="error_password_required">请输入密码</string>
+    <string name="error_password_short">密码至少需要3位</string>
+    <string name="error_password_mismatch">两次输入的密码不一致</string>
 </resources>

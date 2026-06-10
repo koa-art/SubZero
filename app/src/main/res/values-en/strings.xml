@@ -59,11 +59,28 @@
     <string name="currency_eur">€ EUR</string>
     <string name="currency_jpy">¥ JPY</string>
 
-    <string name="about_content">SubZero v1.0\n\nOpen Source · Privacy-First Subscription Manager\n\n
-        All data stored locally on your device\n
-        Visual dashboard to track spending\n
-        Renewal reminders — no more surprise charges\n
-        JSON data export\n\n
-        GitHub: github.com/koa-art/SubZero\n\n
-        MIT License</string>
+    <string name="about_content">SubZero v1.0\n\nOpen Source · Privacy-First Subscription Manager\n\nAll data stored locally on your device\nVisual dashboard to track spending\nRenewal reminders — no more surprise charges\nJSON data export\n\nGitHub: github.com/koa-art/SubZero\n\nMIT License</string>
+
+    <string name="login_subtitle">Log in to manage your subscriptions</string>
+    <string name="login_success">Login successful!</string>
+    <string name="login_failed">Incorrect username or password</string>
+    <string name="register_success">Registration successful, please log in</string>
+    <string name="username_hint">Enter username</string>
+    <string name="password_hint">Enter password</string>
+    <string name="nickname_hint">Choose a nickname</string>
+    <string name="confirm_password_hint">Confirm password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_register">Register</string>
+    <string name="no_account">No account? Register</string>
+    <string name="has_account">Have an account? Login</string>
+    <string name="register_title">Create Account</string>
+    <string name="remember_me">Remember me</string>
+    <string name="reg_username_hint">Username (min 3 chars)</string>
+    <string name="reg_password_hint">Password (min 3 chars)</string>
+
+    <string name="error_username_required">Username is required</string>
+    <string name="error_username_short">Username must be at least 3 characters</string>
+    <string name="error_password_required">Password is required</string>
+    <string name="error_password_short">Password must be at least 3 characters</string>
+    <string name="error_password_mismatch">Passwords do not match</string>
 </resources>

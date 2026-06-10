@@ -10,19 +10,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.appbar.MaterialToolbar;
-
 import com.subzero.app.db.StorageManager;
 import com.subzero.app.model.Subscription;
-import com.subzero.app.util.LocaleHelper;
 import com.subzero.app.util.NotificationHelper;
+
+import com.google.android.material.appbar.MaterialToolbar;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class AddSubscriptionActivity extends AppCompatActivity {
+public class AddSubscriptionActivity extends BaseActivity {
 
     private MaterialToolbar toolbar;
     private EditText etName, etAmount, etNotes;
@@ -37,7 +34,6 @@ public class AddSubscriptionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocaleHelper.applyLanguage(this);
         setContentView(R.layout.activity_add_subscription);
 
         store = StorageManager.getInstance(this);

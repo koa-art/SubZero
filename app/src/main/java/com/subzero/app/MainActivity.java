@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +26,7 @@ import com.subzero.app.util.LocaleHelper;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private BottomNavigationView bottomNav;
     private View layoutDashboard, layoutSubs, layoutStats, layoutSettings;
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LocaleHelper.applyLanguage(this);
         setContentView(R.layout.activity_main);
 
         store = StorageManager.getInstance(this);
@@ -101,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         // Settings
         tvLanguage = findViewById(R.id.tv_language);
         tvCurrencySetting = findViewById(R.id.tv_currency_setting);
-        tvLanguage = findViewById(R.id.tv_language);
         tvDarkMode = findViewById(R.id.tv_dark_mode);
         tvExport = findViewById(R.id.tv_export);
         tvAbout = findViewById(R.id.tv_about);
@@ -155,11 +152,11 @@ public class MainActivity extends AppCompatActivity {
             String[] langs = {"中文", "English", "跟随系统"};
             String[] values = {"zh", "en", "auto"};
             new AlertDialog.Builder(this)
-                    .setTitle("选择语言 / Language")
+                    .setTitle(LocaleHelper.getLanguageDisplayName(this).equals("中文") || LocaleHelper.getLanguageDisplayName(this).equals("跟随系统") ? "选择语言 / Language" : "Select Language")
                     .setItems(langs, (d, w) -> {
-                        LocaleHelper.setLanguage(this, values[w]);
-                        tvLanguage.setText(langs[w]);
-                        Toast.makeText(this, "重启应用后生效", Toast.LENGTH_SHORT).show();
+                        if (!values[w].equals(LocaleHelper.getLanguage(this))) {
+                            switchLanguage(values[w]);
+                        }
                     }).show();
         });
 

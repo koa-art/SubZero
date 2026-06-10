@@ -1,6 +1,5 @@
 package com.subzero.app.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -23,27 +22,23 @@ public class LocaleHelper {
     }
 
     public static void setLanguage(Context context, String lang) {
-        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        prefs.edit().putString(KEY_LANG, lang).apply();
+        context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+                .edit().putString(KEY_LANG, lang).apply();
     }
 
-    public static Context applyLanguage(Activity activity) {
-        String lang = getLanguage(activity);
-        Locale locale;
-        if (LANG_ZH.equals(lang)) {
-            locale = new Locale("zh", "CN");
-        } else if (LANG_EN.equals(lang)) {
-            locale = Locale.ENGLISH;
-        } else {
-            // Auto: use system default
-            return activity;
-        }
+    /** Called from BaseActivity.attachBaseContext — applies locale at context level for immediate effect */
+    public static Context wrapContext(Context context) {
+        String lang = getLanguage(context);
+        if (LANG_AUTO.equals(lang)) return context;
 
-        Resources resources = activity.getResources();
-        Configuration config = resources.getConfiguration();
+        Locale locale = LANG_ZH.equals(lang)
+                ? new Locale("zh", "CN")
+                : Locale.ENGLISH;
+
+        Resources resources = context.getResources();
+        Configuration config = new Configuration(resources.getConfiguration());
         config.setLocale(locale);
-        resources.updateConfiguration(config, resources.getDisplayMetrics());
-        return activity;
+        return context.createConfigurationContext(config);
     }
 
     public static String getLanguageDisplayName(Context context) {
