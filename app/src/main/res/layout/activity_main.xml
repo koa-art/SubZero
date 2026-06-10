@@ -24,7 +24,7 @@
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:orientation="horizontal" android:layout_marginTop="4dp"
-                    android:gravity="baseline">
+                    android:gravity="bottom">
 
                     <TextView android:id="@+id/tv_currency_symbol"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -261,6 +261,24 @@
                         <TextView android:id="@+id/tv_currency_setting"
                             android:layout_width="wrap_content" android:layout_height="wrap_content"
                             android:text="¥ CNY" android:textSize="13sp" android:textColor="@color/primary"
+                            android:clickable="true" android:focusable="true"
+                            android:background="?attr/selectableItemBackground" android:padding="8dp" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="0.5dp"
+                        android:background="@color/divider" />
+
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:paddingVertical="10dp">
+
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:text="@string/language"
+                            android:textSize="15sp" android:textColor="@color/text_primary" />
+
+                        <TextView android:id="@+id/tv_language"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="中文" android:textSize="13sp" android:textColor="@color/primary"
                             android:clickable="true" android:focusable="true"
                             android:background="?attr/selectableItemBackground" android:padding="8dp" />
                     </LinearLayout>

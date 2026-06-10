@@ -1,4 +1,4 @@
-package com.subguard.app.adapter;
+package com.subzero.app.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,9 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.subguard.app.R;
-import com.subguard.app.db.StorageManager;
-import com.subguard.app.model.Subscription;
+import com.subzero.app.R;
+import com.subzero.app.db.StorageManager;
+import com.subzero.app.model.Subscription;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

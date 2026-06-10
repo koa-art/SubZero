@@ -1,10 +1,10 @@
-package com.subguard.app.db;
+package com.subzero.app.db;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.subguard.app.model.PaymentRecord;
-import com.subguard.app.model.Subscription;
+import com.subzero.app.model.PaymentRecord;
+import com.subzero.app.model.Subscription;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,7 +14,7 @@ import java.util.*;
 
 public class StorageManager {
 
-    private static final String PREF_NAME = "subguard_data";
+    private static final String PREF_NAME = "subzero_data";
     private static final String KEY_SUBS = "subscriptions";
     private static final String KEY_PAYMENTS = "payments";
     private static final String KEY_SETTINGS = "settings";

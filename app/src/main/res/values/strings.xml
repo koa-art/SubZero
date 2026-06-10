@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SubGuard</string>
+    <string name="app_name">SubZero</string>
     <string name="splash_tagline">掌控每一笔订阅支出</string>
 
     <string name="tab_dashboard">仪表盘</string>
@@ -47,16 +47,17 @@
     <string name="confirm_delete_msg">确定要删除该订阅吗？历史付款记录将保留。</string>
 
     <string name="settings_title">设置</string>
+    <string name="language">语言切换</string>
     <string name="currency">货币单位</string>
     <string name="reminder_days">续费提醒（提前天数）</string>
     <string name="dark_mode">深色模式</string>
     <string name="export_data">导出数据</string>
-    <string name="about_app">关于 SubGuard</string>
+    <string name="about_app">关于 SubZero</string>
 
     <string name="currency_cny">¥ CNY（人民币）</string>
     <string name="currency_usd">$ USD（美元）</string>
     <string name="currency_eur">€ EUR（欧元）</string>
     <string name="currency_jpy">¥ JPY（日元）</string>
 
-    <string name="about_content">SubGuard v1.0\n\n开源 · 隐私优先的订阅管理工具\n\n🔒 所有数据仅存储在你自己的设备上\n📊 可视化仪表盘追踪支出\n🔔 续费提醒，不再意外扣费\n📤 JSON/CSV 数据导出\n\nGitHub: github.com/koa-art/SubGuard\n\nMIT License</string>
+    <string name="about_content">SubZero v1.0\n\n开源 · 隐私优先的订阅管理工具\n\n🔒 所有数据仅存储在你自己的设备上\n📊 可视化仪表盘追踪支出\n🔔 续费提醒，不再意外扣费\n📤 JSON/CSV 数据导出\n\nGitHub: github.com/koa-art/SubZero\n\nMIT License</string>
 </resources>

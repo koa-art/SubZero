@@ -1,4 +1,4 @@
-package com.subguard.app;
+package com.subzero.app;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -14,9 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
-import com.subguard.app.db.StorageManager;
-import com.subguard.app.model.Subscription;
-import com.subguard.app.util.NotificationHelper;
+import com.subzero.app.db.StorageManager;
+import com.subzero.app.model.Subscription;
+import com.subzero.app.util.LocaleHelper;
+import com.subzero.app.util.NotificationHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,6 +37,7 @@ public class AddSubscriptionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.applyLanguage(this);
         setContentView(R.layout.activity_add_subscription);
 
         store = StorageManager.getInstance(this);

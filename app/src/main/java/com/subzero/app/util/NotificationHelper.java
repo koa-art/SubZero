@@ -1,4 +1,4 @@
-package com.subguard.app.util;
+package com.subzero.app.util;
 
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
@@ -11,8 +11,8 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
-import com.subguard.app.db.StorageManager;
-import com.subguard.app.model.Subscription;
+import com.subzero.app.db.StorageManager;
+import com.subzero.app.model.Subscription;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class NotificationHelper {
-    private static final String CHANNEL_ID = "subguard_renewal";
+    private static final String CHANNEL_ID = "subzero_renewal";
     private static final int NOTIFY_ID = 5001;
 
     public static void createChannel(Context context) {

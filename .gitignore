@@ -5,7 +5,8 @@ local.properties
 proguard/
 *.log
 .navigation/ captures/
-*.iml .idea/
+*.iml
+.idea/
 *.jks *.keystore
 .externalNativeBuild/ .cxx/
 google-services.json

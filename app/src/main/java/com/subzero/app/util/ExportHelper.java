@@ -1,10 +1,10 @@
-package com.subguard.app.util;
+package com.subzero.app.util;
 
 import android.content.Context;
 import android.os.Environment;
 import android.widget.Toast;
 
-import com.subguard.app.db.StorageManager;
+import com.subzero.app.db.StorageManager;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,10 +19,10 @@ public class ExportHelper {
             String json = store.exportToJson();
 
             File dir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOWNLOADS), "SubGuard");
+                    Environment.DIRECTORY_DOWNLOADS), "SubZero");
             if (!dir.exists()) dir.mkdirs();
 
-            String filename = "subguard_backup_" +
+            String filename = "subzero_backup_" +
                     new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date()) + ".json";
             File file = new File(dir, filename);
 

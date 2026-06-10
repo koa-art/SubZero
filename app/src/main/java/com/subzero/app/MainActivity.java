@@ -1,4 +1,4 @@
-package com.subguard.app;
+package com.subzero.app;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -17,11 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import com.subguard.app.adapter.SubscriptionAdapter;
-import com.subguard.app.adapter.UpcomingAdapter;
-import com.subguard.app.db.StorageManager;
-import com.subguard.app.model.Subscription;
-import com.subguard.app.util.ExportHelper;
+import com.subzero.app.adapter.SubscriptionAdapter;
+import com.subzero.app.adapter.UpcomingAdapter;
+import com.subzero.app.db.StorageManager;
+import com.subzero.app.model.Subscription;
+import com.subzero.app.util.ExportHelper;
+import com.subzero.app.util.LocaleHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rvTopSubs;
 
     // Settings views
-    private TextView tvDarkMode, tvExport, tvAbout;
+    private TextView tvLanguage, tvDarkMode, tvExport, tvAbout;
 
     private StorageManager store;
     private SubscriptionAdapter subAdapter;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.applyLanguage(this);
         setContentView(R.layout.activity_main);
 
         store = StorageManager.getInstance(this);
@@ -97,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
         rvTopSubs = findViewById(R.id.rv_top_subs);
 
         // Settings
+        tvLanguage = findViewById(R.id.tv_language);
         tvCurrencySetting = findViewById(R.id.tv_currency_setting);
+        tvLanguage = findViewById(R.id.tv_language);
         tvDarkMode = findViewById(R.id.tv_dark_mode);
         tvExport = findViewById(R.id.tv_export);
         tvAbout = findViewById(R.id.tv_about);
@@ -146,6 +150,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupSettings() {
+        tvLanguage.setText(LocaleHelper.getLanguageDisplayName(this));
+        tvLanguage.setOnClickListener(v -> {
+            String[] langs = {"中文", "English", "跟随系统"};
+            String[] values = {"zh", "en", "auto"};
+            new AlertDialog.Builder(this)
+                    .setTitle("选择语言 / Language")
+                    .setItems(langs, (d, w) -> {
+                        LocaleHelper.setLanguage(this, values[w]);
+                        tvLanguage.setText(langs[w]);
+                        Toast.makeText(this, "重启应用后生效", Toast.LENGTH_SHORT).show();
+                    }).show();
+        });
+
         tvCurrencySetting.setOnClickListener(v -> {
             String[] currencies = {"¥ CNY（人民币）", "$ USD（美元）", "€ EUR（欧元）", "¥ JPY（日元）"};
             String[] values = {"CNY", "USD", "EUR", "JPY"};
@@ -174,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvAbout.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
-                    .setTitle("关于 SubGuard").setMessage(R.string.about_content)
+                    .setTitle("关于 SubZero").setMessage(R.string.about_content)
                     .setPositiveButton("好的", null).show();
         });
     }

@@ -1,4 +1,4 @@
-package com.subguard.app.model;
+package com.subzero.app.model;
 
 public class Subscription {
     private int id;
