@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.widget.Toast;
 
+import com.subzero.app.R;
 import com.subzero.app.db.StorageManager;
 
 import java.io.File;
@@ -30,10 +31,10 @@ public class ExportHelper {
             writer.write(json);
             writer.close();
 
-            Toast.makeText(context, "数据已导出到: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.export_success_prefix) + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
             return true;
         } catch (Exception e) {
-            Toast.makeText(context, "导出失败: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.export_failed_prefix) + e.getMessage(), Toast.LENGTH_SHORT).show();
             return false;
         }
     }

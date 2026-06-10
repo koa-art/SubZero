@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
+import com.subzero.app.R;
+
 import java.util.Locale;
 
 public class LocaleHelper {
@@ -45,9 +47,9 @@ public class LocaleHelper {
     public static String getLanguageDisplayName(Context context) {
         String lang = getLanguage(context);
         switch (lang) {
-            case LANG_ZH: return "中文";
-            case LANG_EN: return "English";
-            default: return "跟随系统";
+            case LANG_ZH: return context.getString(R.string.language_zh);
+            case LANG_EN: return context.getString(R.string.language_en);
+            default: return context.getString(R.string.language_auto);
         }
     }
 }

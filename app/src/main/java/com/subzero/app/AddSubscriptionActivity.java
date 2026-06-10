@@ -3,18 +3,18 @@ package com.subzero.app;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
+
 import com.subzero.app.db.StorageManager;
 import com.subzero.app.model.Subscription;
+import com.subzero.app.util.DisplayHelper;
 import com.subzero.app.util.NotificationHelper;
-
-import com.google.android.material.appbar.MaterialToolbar;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,6 +30,7 @@ public class AddSubscriptionActivity extends BaseActivity {
     private StorageManager store;
     private int editId = -1;
     private String selectedDate;
+    private String[] catKeys, cycleKeys;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,19 +52,22 @@ public class AddSubscriptionActivity extends BaseActivity {
 
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        // Category spinner
-        String[] categories = {"影音娱乐", "效率工具", "健康健身", "购物快递", "餐饮美食", "学习教育", "其他"};
-        String[] catValues = {"entertainment", "productivity", "health", "shopping", "food", "education", "other"};
+        // Build localized category and cycle lists
+        catKeys = DisplayHelper.getCategoryKeys();
+        String[] catNames = new String[catKeys.length];
+        for (int i = 0; i < catKeys.length; i++) catNames[i] = DisplayHelper.getCategoryName(this, catKeys[i]);
+
         android.widget.ArrayAdapter<String> catAdapter = new android.widget.ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, categories);
+                android.R.layout.simple_spinner_item, catNames);
         catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategory.setAdapter(catAdapter);
 
-        // Cycle spinner
-        String[] cycles = {"每月", "每年", "每周", "每季"};
-        String[] cycleValues = {"monthly", "yearly", "weekly", "quarterly"};
+        cycleKeys = DisplayHelper.getCycleKeys();
+        String[] cycleNames = new String[cycleKeys.length];
+        for (int i = 0; i < cycleKeys.length; i++) cycleNames[i] = DisplayHelper.getCycleName(this, cycleKeys[i]);
+
         android.widget.ArrayAdapter<String> cycleAdapter = new android.widget.ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, cycles);
+                android.R.layout.simple_spinner_item, cycleNames);
         cycleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCycle.setAdapter(cycleAdapter);
 
@@ -75,7 +79,7 @@ public class AddSubscriptionActivity extends BaseActivity {
         editId = getIntent().getIntExtra("sub_id", -1);
         if (editId > 0) {
             loadSubscription(editId);
-            toolbar.setTitle("编辑订阅");
+            toolbar.setTitle(getString(R.string.edit_subscription));
             btnDelete.setVisibility(View.VISIBLE);
         }
 
@@ -92,13 +96,11 @@ public class AddSubscriptionActivity extends BaseActivity {
         selectedDate = s.getNextPaymentDate();
         updateDateDisplay();
 
-        String[] catValues = {"entertainment", "productivity", "health", "shopping", "food", "education", "other"};
-        String[] cycleValues = {"monthly", "yearly", "weekly", "quarterly"};
-        for (int i = 0; i < catValues.length; i++) {
-            if (catValues[i].equals(s.getCategory())) { spinnerCategory.setSelection(i); break; }
+        for (int i = 0; i < catKeys.length; i++) {
+            if (catKeys[i].equals(s.getCategory())) { spinnerCategory.setSelection(i); break; }
         }
-        for (int i = 0; i < cycleValues.length; i++) {
-            if (cycleValues[i].equals(s.getCycle())) { spinnerCycle.setSelection(i); break; }
+        for (int i = 0; i < cycleKeys.length; i++) {
+            if (cycleKeys[i].equals(s.getCycle())) { spinnerCycle.setSelection(i); break; }
         }
     }
 
@@ -106,7 +108,13 @@ public class AddSubscriptionActivity extends BaseActivity {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             Date date = sdf.parse(selectedDate);
-            String display = new SimpleDateFormat("yyyy年MM月dd日 EEEE", Locale.CHINESE).format(date);
+            java.util.Locale curLoc = getResources().getConfiguration().getLocales().get(0);
+            String display;
+            if (curLoc.getLanguage().equals(java.util.Locale.ENGLISH.getLanguage())) {
+                display = new SimpleDateFormat("yyyy-MM-dd EEEE", java.util.Locale.ENGLISH).format(date);
+            } else {
+                display = new SimpleDateFormat("yyyy年MM月dd日 EEEE", java.util.Locale.CHINESE).format(date);
+            }
             tvNextDate.setText(display);
         } catch (Exception e) { tvNextDate.setText(selectedDate); }
     }
@@ -134,14 +142,16 @@ public class AddSubscriptionActivity extends BaseActivity {
     private void save() {
         String name = etName.getText().toString().trim();
         String amountStr = etAmount.getText().toString().trim();
-        if (name.isEmpty()) { Toast.makeText(this, "请输入订阅名称", Toast.LENGTH_SHORT).show(); return; }
-        if (amountStr.isEmpty()) { Toast.makeText(this, "请输入费用金额", Toast.LENGTH_SHORT).show(); return; }
+        if (name.isEmpty()) {
+            Toast.makeText(this, R.string.add_sub_enter_name, Toast.LENGTH_SHORT).show(); return;
+        }
+        if (amountStr.isEmpty()) {
+            Toast.makeText(this, R.string.add_sub_enter_amount, Toast.LENGTH_SHORT).show(); return;
+        }
 
         double amount = Double.parseDouble(amountStr);
-        String[] catValues = {"entertainment", "productivity", "health", "shopping", "food", "education", "other"};
-        String[] cycleValues = {"monthly", "yearly", "weekly", "quarterly"};
-        String category = catValues[spinnerCategory.getSelectedItemPosition()];
-        String cycle = cycleValues[spinnerCycle.getSelectedItemPosition()];
+        String category = catKeys[spinnerCategory.getSelectedItemPosition()];
+        String cycle = cycleKeys[spinnerCycle.getSelectedItemPosition()];
         String notes = etNotes.getText().toString().trim();
 
         if (editId > 0) {
@@ -150,24 +160,25 @@ public class AddSubscriptionActivity extends BaseActivity {
                 s.setName(name); s.setAmount(amount); s.setCategory(category);
                 s.setCycle(cycle); s.setNextPaymentDate(selectedDate); s.setNotes(notes);
                 store.updateSubscription(s);
-                Toast.makeText(this, "订阅已更新", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.subscription_saved, Toast.LENGTH_SHORT).show();
             }
         } else {
             Subscription s = new Subscription(name, amount, category, cycle, selectedDate);
             s.setNotes(notes);
             store.insertSubscription(s);
-            Toast.makeText(this, "订阅添加成功", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.subscription_added, Toast.LENGTH_SHORT).show();
         }
         finish();
     }
 
     private void confirmDelete() {
         new AlertDialog.Builder(this)
-                .setTitle("确认删除").setMessage("确定要删除该订阅吗？")
-                .setPositiveButton("删除", (d, w) -> {
+                .setTitle(getString(R.string.confirm_delete))
+                .setMessage(getString(R.string.confirm_delete_msg))
+                .setPositiveButton(getString(R.string.delete), (d, w) -> {
                     if (editId > 0) { store.deleteSubscription(editId);
-                        Toast.makeText(this, "已删除", Toast.LENGTH_SHORT).show(); }
+                        Toast.makeText(this, R.string.subscription_deleted, Toast.LENGTH_SHORT).show(); }
                     finish();
-                }).setNegativeButton("取消", null).show();
+                }).setNegativeButton(getString(R.string.cancel), null).show();
     }
 }

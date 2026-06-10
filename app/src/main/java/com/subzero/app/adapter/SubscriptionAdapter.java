@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.subzero.app.R;
 import com.subzero.app.db.StorageManager;
 import com.subzero.app.model.Subscription;
+import com.subzero.app.util.DisplayHelper;
 import com.google.android.material.card.MaterialCardView;
 
 import java.text.ParseException;
@@ -50,36 +51,39 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<SubscriptionAdapte
 
         String symbol = getSymbol();
         holder.tvAmount.setText(symbol + String.format(Locale.getDefault(), "%.2f", s.getAmount()));
-        holder.tvCycle.setText("/" + getCycleLabel(s.getCycle()));
+        holder.tvCycle.setText("/" + DisplayHelper.getCycleName(context, s.getCycle()));
 
         String nextDate = s.getNextPaymentDate();
         if (nextDate != null && !nextDate.isEmpty()) {
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Date date = sdf.parse(nextDate);
-                String display = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINESE).format(date);
-                holder.tvNextPayment.setText("下次付款：" + display);
+                String display;
+                java.util.Locale curLoc = context.getResources().getConfiguration().getLocales().get(0);
+                if (curLoc.getLanguage().equals(Locale.ENGLISH.getLanguage())) {
+                    display = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(date);
+                } else {
+                    display = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINESE).format(date);
+                }
+                holder.tvNextPayment.setText(context.getString(R.string.next_payment) + display);
+            } catch (ParseException e) {
+                holder.tvNextPayment.setText(context.getString(R.string.next_payment) + nextDate);
+            }
 
-                // Color dot based on urgency
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
-                Calendar today = Calendar.getInstance();
-                long diff = (cal.getTimeInMillis() - today.getTimeInMillis()) / (1000 * 60 * 60 * 24);
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date date = sdf.parse(s.getNextPaymentDate());
+                Calendar cal = Calendar.getInstance(); cal.setTime(date);
+                long diff = (cal.getTimeInMillis() - System.currentTimeMillis()) / (1000 * 60 * 60 * 24);
                 if (diff < 0) holder.viewDot.setBackgroundColor(Color.parseColor("#F44336"));
                 else if (diff <= 3) holder.viewDot.setBackgroundColor(Color.parseColor("#FF9800"));
                 else holder.viewDot.setBackgroundColor(Color.parseColor("#4CAF50"));
-            } catch (ParseException e) {
-                holder.tvNextPayment.setText("下次付款：" + nextDate);
+            } catch (ParseException ignored) {
                 holder.viewDot.setBackgroundColor(Color.parseColor("#9E9E9E"));
             }
         }
 
-        if (!s.isActive()) {
-            holder.cardView.setAlpha(0.5f);
-        } else {
-            holder.cardView.setAlpha(1.0f);
-        }
-
+        holder.cardView.setAlpha(s.isActive() ? 1.0f : 0.5f);
         holder.itemView.setOnClickListener(v -> listener.onClick(s));
         holder.itemView.setOnLongClickListener(v -> { listener.onLongClick(s); return true; });
     }
@@ -88,16 +92,10 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<SubscriptionAdapte
 
     private String getSymbol() {
         String c = store.getSetting("currency");
-        return c.equals("USD") ? "$" : c.equals("EUR") ? "€" : c.equals("JPY") ? "¥" : "¥";
-    }
-
-    private String getCycleLabel(String cycle) {
-        switch (cycle) {
-            case "weekly": return "周";
-            case "quarterly": return "季";
-            case "yearly": return "年";
-            default: return "月";
-        }
+        if (c.equals("USD")) return "$";
+        if (c.equals("EUR")) return "€";
+        if (c.equals("JPY")) return "¥";
+        return "¥";
     }
 
     private String getCategoryIcon(String cat) {

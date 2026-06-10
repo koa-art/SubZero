@@ -38,6 +38,7 @@
     <string name="days_left">In %d days</string>
     <string name="today">Today</string>
     <string name="overdue">Overdue</string>
+    <string name="next_payment">Next payment: </string>
 
     <string name="no_subscriptions">No subscriptions yet\nTap + to add your first one</string>
     <string name="save">Save</string>
@@ -45,10 +46,14 @@
     <string name="cancel">Cancel</string>
     <string name="confirm_delete">Confirm Delete</string>
     <string name="confirm_delete_msg">Are you sure you want to delete this subscription? Payment history will be kept.</string>
+    <string name="confirm_delete_sub_msg">Delete \"%s\"?</string>
 
     <string name="settings_title">Settings</string>
-    <string name="currency">Currency</string>
     <string name="language">Language</string>
+    <string name="language_zh">中文</string>
+    <string name="language_en">English</string>
+    <string name="language_auto">Auto</string>
+    <string name="currency">Currency</string>
     <string name="reminder_days">Reminder (days ahead)</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="export_data">Export Data</string>
@@ -84,4 +89,36 @@
     <string name="error_password_short">Password must be at least 3 characters</string>
     <string name="error_password_mismatch">Passwords do not match</string>
     <string name="error_username_taken">Username already taken</string>
+
+    <string name="category_breakdown_title">Category Breakdown</string>
+    <string name="spending_overview_title">Spending Overview</string>
+    <string name="top_spending_title">Top Spending Subscriptions</string>
+    <string name="total_count_format">Total %d items</string>
+    <string name="edit_option">Edit</string>
+    <string name="pause_option">Pause</string>
+    <string name="resume_option">Resume</string>
+    <string name="select_currency_title">Select Currency</string>
+    <string name="select_language_title">Select Language</string>
+    <string name="export_dialog_title">Export Data</string>
+    <string name="export_dialog_msg">Export all subscriptions as JSON file?</string>
+    <string name="export_ok">Export</string>
+    <string name="export_success_prefix">Data exported to: </string>
+    <string name="export_failed_prefix">Export failed: </string>
+    <string name="subscription_saved">Subscription updated</string>
+    <string name="subscription_added">Subscription added</string>
+    <string name="subscription_deleted">Deleted</string>
+    <string name="subscription_resumed">Resumed</string>
+    <string name="subscription_paused">Paused</string>
+    <string name="dark_mode_restart">Restart app for changes to take effect</string>
+    <string name="ok">OK</string>
+
+    <string name="notification_channel_name">Renewal Reminder</string>
+    <string name="notification_channel_desc">Subscription renewal reminder</string>
+    <string name="notification_title">Upcoming Renewals</string>
+
+    <string name="add_sub_name_hint">e.g. Netflix, Spotify</string>
+    <string name="add_sub_amount_hint">0.00</string>
+    <string name="add_sub_notes_hint">Shared account: xxx@email.com</string>
+    <string name="add_sub_enter_name">Please enter subscription name</string>
+    <string name="add_sub_enter_amount">Please enter amount</string>
 </resources>

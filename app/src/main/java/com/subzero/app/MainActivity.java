@@ -20,10 +20,10 @@ import com.subzero.app.adapter.SubscriptionAdapter;
 import com.subzero.app.adapter.UpcomingAdapter;
 import com.subzero.app.db.StorageManager;
 import com.subzero.app.model.Subscription;
+import com.subzero.app.util.DisplayHelper;
 import com.subzero.app.util.ExportHelper;
 import com.subzero.app.util.LocaleHelper;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MainActivity extends BaseActivity {
@@ -32,21 +32,17 @@ public class MainActivity extends BaseActivity {
     private View layoutDashboard, layoutSubs, layoutStats, layoutSettings;
     private FloatingActionButton fabAdd;
 
-    // Dashboard views
     private TextView tvMonthlyTotal, tvActiveCount, tvYearlyTotal, tvCurrencySymbol;
     private TextView tvNoUpcoming;
     private RecyclerView rvUpcoming;
 
-    // Subscription list views
     private RecyclerView rvSubscriptions;
     private TextView tvSubsEmpty, tvSubCount;
 
-    // Stats views
     private TextView tvStatsMonthly, tvStatsYearly, tvStatsAvg, tvCurrencySetting;
     private LinearLayout layoutCategoryBars;
     private RecyclerView rvTopSubs;
 
-    // Settings views
     private TextView tvLanguage, tvDarkMode, tvExport, tvAbout;
 
     private StorageManager store;
@@ -76,7 +72,6 @@ public class MainActivity extends BaseActivity {
         layoutStats = findViewById(R.id.layout_stats);
         layoutSettings = findViewById(R.id.layout_settings);
 
-        // Dashboard
         tvMonthlyTotal = findViewById(R.id.tv_monthly_total);
         tvActiveCount = findViewById(R.id.tv_active_count);
         tvYearlyTotal = findViewById(R.id.tv_yearly_total);
@@ -84,47 +79,37 @@ public class MainActivity extends BaseActivity {
         tvNoUpcoming = findViewById(R.id.tv_no_upcoming);
         rvUpcoming = findViewById(R.id.rv_upcoming);
 
-        // Subscriptions
         rvSubscriptions = findViewById(R.id.rv_subscriptions);
         tvSubsEmpty = findViewById(R.id.tv_subs_empty);
         tvSubCount = findViewById(R.id.tv_sub_count);
 
-        // Stats
         tvStatsMonthly = findViewById(R.id.tv_stats_monthly);
         tvStatsYearly = findViewById(R.id.tv_stats_yearly);
         tvStatsAvg = findViewById(R.id.tv_stats_avg);
         layoutCategoryBars = findViewById(R.id.layout_category_bars);
         rvTopSubs = findViewById(R.id.rv_top_subs);
 
-        // Settings
         tvLanguage = findViewById(R.id.tv_language);
         tvCurrencySetting = findViewById(R.id.tv_currency_setting);
         tvDarkMode = findViewById(R.id.tv_dark_mode);
         tvExport = findViewById(R.id.tv_export);
         tvAbout = findViewById(R.id.tv_about);
 
-        // Setup upcoming RecyclerView
         rvUpcoming.setLayoutManager(new LinearLayoutManager(this));
         upcomingAdapter = new UpcomingAdapter(this, upcomingSubs);
         rvUpcoming.setAdapter(upcomingAdapter);
 
-        // Setup subscription RecyclerView
         rvSubscriptions.setLayoutManager(new LinearLayoutManager(this));
         subAdapter = new SubscriptionAdapter(this, allSubs, new SubscriptionAdapter.OnSubClickListener() {
-            @Override
-            public void onClick(Subscription sub) {
+            @Override public void onClick(Subscription sub) {
                 Intent intent = new Intent(MainActivity.this, AddSubscriptionActivity.class);
                 intent.putExtra("sub_id", sub.getId());
                 startActivity(intent);
             }
-            @Override
-            public void onLongClick(Subscription sub) {
-                showSubOptions(sub);
-            }
+            @Override public void onLongClick(Subscription sub) { showSubOptions(sub); }
         });
         rvSubscriptions.setAdapter(subAdapter);
 
-        // Top subs RecyclerView (stats tab)
         rvTopSubs.setLayoutManager(new LinearLayoutManager(this));
 
         fabAdd.setOnClickListener(v -> startActivity(
@@ -149,10 +134,10 @@ public class MainActivity extends BaseActivity {
     private void setupSettings() {
         tvLanguage.setText(LocaleHelper.getLanguageDisplayName(this));
         tvLanguage.setOnClickListener(v -> {
-            String[] langs = {"中文", "English", "跟随系统"};
+            String[] langs = {getString(R.string.language_zh), getString(R.string.language_en), getString(R.string.language_auto)};
             String[] values = {"zh", "en", "auto"};
             new AlertDialog.Builder(this)
-                    .setTitle(LocaleHelper.getLanguageDisplayName(this).equals("中文") || LocaleHelper.getLanguageDisplayName(this).equals("跟随系统") ? "选择语言 / Language" : "Select Language")
+                    .setTitle(getString(R.string.select_language_title))
                     .setItems(langs, (d, w) -> {
                         if (!values[w].equals(LocaleHelper.getLanguage(this))) {
                             switchLanguage(values[w]);
@@ -161,11 +146,15 @@ public class MainActivity extends BaseActivity {
         });
 
         tvCurrencySetting.setOnClickListener(v -> {
-            String[] currencies = {"¥ CNY（人民币）", "$ USD（美元）", "€ EUR（欧元）", "¥ JPY（日元）"};
+            String cny = getString(R.string.currency_cny);
+            String usd = getString(R.string.currency_usd);
+            String eur = getString(R.string.currency_eur);
+            String jpy = getString(R.string.currency_jpy);
+            String[] currencies = {cny, usd, eur, jpy};
             String[] values = {"CNY", "USD", "EUR", "JPY"};
             String[] symbols = {"¥", "$", "€", "¥"};
             new AlertDialog.Builder(this)
-                    .setTitle("选择货币")
+                    .setTitle(getString(R.string.select_currency_title))
                     .setItems(currencies, (d, w) -> {
                         store.setSetting("currency", values[w]);
                         tvCurrencySetting.setText(symbols[w] + " " + values[w]);
@@ -176,20 +165,22 @@ public class MainActivity extends BaseActivity {
         tvDarkMode.setOnClickListener(v -> {
             boolean isDark = "true".equals(store.getSetting("dark_mode"));
             store.setSetting("dark_mode", isDark ? "false" : "true");
-            Toast.makeText(this, "切换后请重启应用", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.dark_mode_restart, Toast.LENGTH_SHORT).show();
         });
 
         tvExport.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
-                    .setTitle("导出数据").setMessage("将所有订阅数据导出为JSON文件？")
-                    .setPositiveButton("导出", (d, w) -> ExportHelper.exportToFile(this))
-                    .setNegativeButton("取消", null).show();
+                    .setTitle(getString(R.string.export_dialog_title))
+                    .setMessage(getString(R.string.export_dialog_msg))
+                    .setPositiveButton(getString(R.string.export_ok), (d, w) -> ExportHelper.exportToFile(this))
+                    .setNegativeButton(getString(R.string.cancel), null).show();
         });
 
         tvAbout.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
-                    .setTitle("关于 SubZero").setMessage(R.string.about_content)
-                    .setPositiveButton("好的", null).show();
+                    .setTitle(getString(R.string.about_app))
+                    .setMessage(R.string.about_content)
+                    .setPositiveButton(getString(R.string.ok), null).show();
         });
     }
 
@@ -203,15 +194,14 @@ public class MainActivity extends BaseActivity {
     }
 
     private void loadDashboard() {
-        String symbol = getSymbol();
         double monthly = store.getTotalMonthlySpend();
         int activeCount = store.getActiveSubscriptions().size();
         double yearly = store.getTotalYearlySpend();
 
-        tvCurrencySymbol.setText(symbol);
+        tvCurrencySymbol.setText(getSymbol());
         tvMonthlyTotal.setText(String.format(Locale.getDefault(), "%.2f", monthly));
         tvActiveCount.setText(String.valueOf(activeCount));
-        tvYearlyTotal.setText(symbol + String.format(Locale.getDefault(), "%.0f", yearly));
+        tvYearlyTotal.setText(getSymbol() + String.format(Locale.getDefault(), "%.0f", yearly));
 
         int reminderDays = Integer.parseInt(store.getSetting("reminder_days"));
         upcomingSubs.clear();
@@ -227,7 +217,7 @@ public class MainActivity extends BaseActivity {
         allSubs.addAll(store.getAllSubscriptions());
         subAdapter.notifyDataSetChanged();
 
-        tvSubCount.setText("共 " + allSubs.size() + " 项");
+        tvSubCount.setText(String.format(getString(R.string.total_count_format), allSubs.size()));
         tvSubsEmpty.setVisibility(allSubs.isEmpty() ? View.VISIBLE : View.GONE);
         rvSubscriptions.setVisibility(allSubs.isEmpty() ? View.GONE : View.VISIBLE);
     }
@@ -243,11 +233,10 @@ public class MainActivity extends BaseActivity {
         tvStatsYearly.setText(symbol + String.format(Locale.getDefault(), "%.0f", yearly));
         tvStatsAvg.setText(symbol + String.format(Locale.getDefault(), "%.0f", avg));
 
-        // Category breakdown bars
+        // Category breakdown bars — use DisplayHelper for localized names
         layoutCategoryBars.removeAllViews();
         Map<String, Double> breakdown = store.getCategoryBreakdown();
-        String[] catKeys = {"entertainment", "productivity", "health", "shopping", "food", "education", "other"};
-        String[] catNames = {"影音娱乐", "效率工具", "健康健身", "购物快递", "餐饮美食", "学习教育", "其他"};
+        String[] catKeys = DisplayHelper.getCategoryKeys();
         int[] catColors = {Color.parseColor("#FF5722"), Color.parseColor("#2196F3"),
                 Color.parseColor("#4CAF50"), Color.parseColor("#FF9800"),
                 Color.parseColor("#E91E63"), Color.parseColor("#9C27B0"),
@@ -268,10 +257,9 @@ public class MainActivity extends BaseActivity {
 
             LinearLayout header = new LinearLayout(this);
             header.setOrientation(LinearLayout.HORIZONTAL);
-            header.setGravity(android.view.Gravity.CENTER_VERTICAL);
 
             TextView label = new TextView(this);
-            label.setText(catNames[i]);
+            label.setText(DisplayHelper.getCategoryName(this, catKeys[i]));
             label.setTextSize(12);
             label.setTextColor(Color.parseColor("#49454F"));
             label.setLayoutParams(new LinearLayout.LayoutParams(0,
@@ -305,14 +293,14 @@ public class MainActivity extends BaseActivity {
                 intent.putExtra("sub_id", sub.getId());
                 startActivity(intent);
             }
-            @Override public void onLongClick(Subscription sub) {
-                showSubOptions(sub);
-            }
+            @Override public void onLongClick(Subscription sub) { showSubOptions(sub); }
         }));
     }
 
     private void showSubOptions(Subscription sub) {
-        String[] options = {"编辑", sub.isActive() ? "暂停" : "恢复", "删除"};
+        String[] options = {getString(R.string.edit_option),
+                sub.isActive() ? getString(R.string.pause_option) : getString(R.string.resume_option),
+                getString(R.string.delete)};
         new AlertDialog.Builder(this)
                 .setTitle(sub.getName())
                 .setItems(options, (d, w) -> {
@@ -324,21 +312,27 @@ public class MainActivity extends BaseActivity {
                         sub.setActive(!sub.isActive());
                         store.updateSubscription(sub);
                         loadSubscriptionList();
-                        Toast.makeText(this, sub.isActive() ? "已恢复" : "已暂停", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, sub.isActive()
+                                ? R.string.subscription_resumed
+                                : R.string.subscription_paused, Toast.LENGTH_SHORT).show();
                     } else if (w == 2) {
                         new AlertDialog.Builder(this)
-                                .setTitle("确认删除").setMessage("确定要删除「" + sub.getName() + "」吗？")
-                                .setPositiveButton("删除", (d2, w2) -> {
+                                .setTitle(getString(R.string.confirm_delete))
+                                .setMessage(String.format(getString(R.string.confirm_delete_sub_msg), sub.getName()))
+                                .setPositiveButton(getString(R.string.delete), (d2, w2) -> {
                                     store.deleteSubscription(sub.getId());
                                     loadSubscriptionList(); loadDashboard();
-                                    Toast.makeText(this, "已删除", Toast.LENGTH_SHORT).show();
-                                }).setNegativeButton("取消", null).show();
+                                    Toast.makeText(this, R.string.subscription_deleted, Toast.LENGTH_SHORT).show();
+                                }).setNegativeButton(getString(R.string.cancel), null).show();
                     }
                 }).show();
     }
 
     private String getSymbol() {
         String c = store.getSetting("currency");
-        return c.equals("USD") ? "$" : c.equals("EUR") ? "€" : c.equals("JPY") ? "¥" : "¥";
+        if (c.equals("USD")) return "$";
+        if (c.equals("EUR")) return "€";
+        if (c.equals("JPY")) return "¥";
+        return "¥";
     }
 }

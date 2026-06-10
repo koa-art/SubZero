@@ -49,17 +49,16 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.VH> {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             Date date = sdf.parse(s.getNextPaymentDate());
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
+            Calendar cal = Calendar.getInstance(); cal.setTime(date);
             Calendar today = Calendar.getInstance();
             long diffDays = (cal.getTimeInMillis() - today.getTimeInMillis()) / (1000 * 60 * 60 * 24);
 
             if (diffDays == 0) {
-                holder.tvDays.setText("今天");
+                holder.tvDays.setText(context.getString(R.string.today));
             } else if (diffDays < 0) {
-                holder.tvDays.setText("过期");
+                holder.tvDays.setText(context.getString(R.string.overdue));
             } else {
-                holder.tvDays.setText(diffDays + "天后");
+                holder.tvDays.setText(String.format(context.getString(R.string.days_left), diffDays));
             }
         } catch (ParseException e) {
             holder.tvDays.setText("--");
@@ -70,7 +69,10 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingAdapter.VH> {
 
     private String getSymbol() {
         String c = store.getSetting("currency");
-        return c.equals("USD") ? "$" : c.equals("EUR") ? "€" : c.equals("JPY") ? "¥" : "¥";
+        if (c.equals("USD")) return "$";
+        if (c.equals("EUR")) return "€";
+        if (c.equals("JPY")) return "¥";
+        return "¥";
     }
 
     private int getCategoryColor(String cat) {

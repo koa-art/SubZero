@@ -38,6 +38,7 @@
     <string name="days_left">%d天后</string>
     <string name="today">今天</string>
     <string name="overdue">已过期</string>
+    <string name="next_payment">下次付款：</string>
 
     <string name="no_subscriptions">还没有订阅\n点击右下角 + 开始添加</string>
     <string name="save">保 存</string>
@@ -45,9 +46,13 @@
     <string name="cancel">取 消</string>
     <string name="confirm_delete">确认删除</string>
     <string name="confirm_delete_msg">确定要删除该订阅吗？历史付款记录将保留。</string>
+    <string name="confirm_delete_sub_msg">确定要删除「%s」吗？</string>
 
     <string name="settings_title">设置</string>
     <string name="language">语言切换</string>
+    <string name="language_zh">中文</string>
+    <string name="language_en">English</string>
+    <string name="language_auto">跟随系统</string>
     <string name="currency">货币单位</string>
     <string name="reminder_days">续费提醒（提前天数）</string>
     <string name="dark_mode">深色模式</string>
@@ -61,7 +66,6 @@
 
     <string name="about_content">SubZero v1.0\n\n开源 · 隐私优先的订阅管理工具\n\n🔒 所有数据仅存储在你自己的设备上\n📊 可视化仪表盘追踪支出\n🔔 续费提醒，不再意外扣费\n📤 JSON/CSV 数据导出\n\nGitHub: github.com/koa-art/SubZero\n\nMIT License</string>
 
-    <!-- Login / Register -->
     <string name="login_subtitle">登录以管理你的订阅</string>
     <string name="login_success">登录成功！</string>
     <string name="login_failed">用户名或密码错误</string>
@@ -79,11 +83,43 @@
     <string name="reg_username_hint">用户名（至少3个字符）</string>
     <string name="reg_password_hint">密码（至少3位）</string>
 
-    <!-- Errors -->
     <string name="error_username_required">请输入用户名</string>
     <string name="error_username_short">用户名至少需要3个字符</string>
     <string name="error_password_required">请输入密码</string>
     <string name="error_password_short">密码至少需要3位</string>
     <string name="error_password_mismatch">两次输入的密码不一致</string>
     <string name="error_username_taken">该用户名已被注册</string>
+
+    <!-- App UI text -->
+    <string name="category_breakdown_title">分类支出占比</string>
+    <string name="spending_overview_title">支出概览</string>
+    <string name="top_spending_title">支出最多的订阅</string>
+    <string name="total_count_format">共 %d 项</string>
+    <string name="edit_option">编辑</string>
+    <string name="pause_option">暂停</string>
+    <string name="resume_option">恢复</string>
+    <string name="select_currency_title">选择货币</string>
+    <string name="select_language_title">选择语言 / Language</string>
+    <string name="export_dialog_title">导出数据</string>
+    <string name="export_dialog_msg">将所有订阅数据导出为JSON文件？</string>
+    <string name="export_ok">导出</string>
+    <string name="export_success_prefix">数据已导出到: </string>
+    <string name="export_failed_prefix">导出失败: </string>
+    <string name="subscription_saved">订阅已更新</string>
+    <string name="subscription_added">订阅添加成功</string>
+    <string name="subscription_deleted">已删除</string>
+    <string name="subscription_resumed">已恢复</string>
+    <string name="subscription_paused">已暂停</string>
+    <string name="dark_mode_restart">切换后请重启应用</string>
+    <string name="ok">好的</string>
+
+    <string name="notification_channel_name">续费提醒</string>
+    <string name="notification_channel_desc">订阅续费到期提醒</string>
+    <string name="notification_title">即将续费的订阅</string>
+
+    <string name="add_sub_name_hint">例：Netflix、Spotify</string>
+    <string name="add_sub_amount_hint">0.00</string>
+    <string name="add_sub_notes_hint">共享账号：xxx@email.com</string>
+    <string name="add_sub_enter_name">请输入订阅名称</string>
+    <string name="add_sub_enter_amount">请输入费用金额</string>
 </resources>
