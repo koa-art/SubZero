@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SubGuard</string>
+    <string name="splash_tagline">掌控每一笔订阅支出</string>
+
+    <string name="tab_dashboard">仪表盘</string>
+    <string name="tab_subscriptions">订阅</string>
+    <string name="tab_stats">统计</string>
+    <string name="tab_settings">设置</string>
+
+    <string name="add_subscription">添加订阅</string>
+    <string name="edit_subscription">编辑订阅</string>
+    <string name="subscription_name">订阅名称</string>
+    <string name="subscription_amount">每月费用</string>
+    <string name="subscription_category">分类</string>
+    <string name="subscription_cycle">计费周期</string>
+    <string name="subscription_next_date">下次付款日期</string>
+    <string name="subscription_notes">备注</string>
+    <string name="subscription_active">活跃中</string>
+
+    <string name="cycle_monthly">每月</string>
+    <string name="cycle_yearly">每年</string>
+    <string name="cycle_weekly">每周</string>
+    <string name="cycle_quarterly">每季</string>
+
+    <string name="cat_entertainment">影音娱乐</string>
+    <string name="cat_productivity">效率工具</string>
+    <string name="cat_health">健康健身</string>
+    <string name="cat_shopping">购物快递</string>
+    <string name="cat_food">餐饮美食</string>
+    <string name="cat_education">学习教育</string>
+    <string name="cat_other">其他</string>
+
+    <string name="monthly_total">本月支出</string>
+    <string name="yearly_total">年度支出</string>
+    <string name="active_count">活跃订阅</string>
+    <string name="upcoming_renewal">即将续费</string>
+    <string name="days_left">%d天后</string>
+    <string name="today">今天</string>
+    <string name="overdue">已过期</string>
+
+    <string name="no_subscriptions">还没有订阅\n点击右下角 + 开始添加</string>
+    <string name="save">保 存</string>
+    <string name="delete">删 除</string>
+    <string name="cancel">取 消</string>
+    <string name="confirm_delete">确认删除</string>
+    <string name="confirm_delete_msg">确定要删除该订阅吗？历史付款记录将保留。</string>
+
+    <string name="settings_title">设置</string>
+    <string name="currency">货币单位</string>
+    <string name="reminder_days">续费提醒（提前天数）</string>
+    <string name="dark_mode">深色模式</string>
+    <string name="export_data">导出数据</string>
+    <string name="about_app">关于 SubGuard</string>
+
+    <string name="currency_cny">¥ CNY（人民币）</string>
+    <string name="currency_usd">$ USD（美元）</string>
+    <string name="currency_eur">€ EUR（欧元）</string>
+    <string name="currency_jpy">¥ JPY（日元）</string>
+
+    <string name="about_content">SubGuard v1.0\n\n开源 · 隐私优先的订阅管理工具\n\n🔒 所有数据仅存储在你自己的设备上\n📊 可视化仪表盘追踪支出\n🔔 续费提醒，不再意外扣费\n📤 JSON/CSV 数据导出\n\nGitHub: github.com/koa-art/SubGuard\n\nMIT License</string>
+</resources>

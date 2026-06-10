@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_margin="4dp" app:cardCornerRadius="12dp"
+    app:cardElevation="1dp" app:strokeWidth="0.5dp">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:padding="12dp"
+        android:gravity="center_vertical">
+
+        <View android:id="@+id/view_accent"
+            android:layout_width="4dp" android:layout_height="40dp"
+            android:layout_marginEnd="10dp" android:background="@color/primary" />
+
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1" android:orientation="vertical">
+
+            <TextView android:id="@+id/tv_upcoming_name"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="名称" android:textSize="13sp" android:textStyle="bold"
+                android:textColor="@color/text_primary" />
+
+            <TextView android:id="@+id/tv_upcoming_amount"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="¥0" android:textSize="12sp" android:textColor="@color/text_secondary"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <FrameLayout android:layout_width="56dp" android:layout_height="48dp"
+            android:background="@drawable/bg_card_accent" android:gravity="center">
+
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="vertical" android:gravity="center">
+
+                <TextView android:id="@+id/tv_days"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="3" android:textSize="18sp" android:textStyle="bold"
+                    android:textColor="@color/primary" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="天后" android:textSize="10sp" android:textColor="@color/text_hint" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
